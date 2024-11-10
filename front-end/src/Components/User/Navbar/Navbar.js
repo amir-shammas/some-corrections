@@ -87,6 +87,9 @@ export default function Navbar() {
                 <Link to="#" className="main-header__profile" title="خروج از سایت" onClick={logoutHandler}>
                   خروج
                 </Link>
+                <Link to="/my-account" className="main-header__profile" title="حساب کاربری">
+                  حساب کاربری
+                </Link>
                 <Link to="/my-account" className="main-header__profile">
                   <span className="main-header__profile-text" title="حساب کاربری">
                     {authContext.userInfos.username}

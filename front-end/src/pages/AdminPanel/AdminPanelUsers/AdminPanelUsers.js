@@ -664,7 +664,7 @@ function AdminPanelUsers() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {/* {users.map((user) => (
                     <tr key={user._id}>
                       <td>{user.name}</td>
                       <td>{user.username}</td>
@@ -759,7 +759,120 @@ function AdminPanelUsers() {
                         </button>
                       </td>
                     </tr>
+                  ))}  */}
+
+
+                  {users.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user.name}</td>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role === 'ADMIN' ? "مدیر" : "کاربر عادی"}</td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-primary edit-btn"
+                              onClick={() => {
+                                setIsVisibleDetailsModal(true);
+                                setSelectedUser(user);
+                              }}
+                            >
+                              جزییات
+                            </button>
+                          )
+                        }
+                      </td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-primary edit-btn"
+                              onClick={() => {
+                                setErrorsForEditUser({});
+                                setIsVisibleEditModal(true);
+                                setSelectedUser(user);
+                              }}
+                            >
+                              ویرایش
+                            </button>
+                          )
+                        }
+                      </td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-primary edit-btn"
+                              onClick={() => {
+                                setIsVisibleChangeUserRoleModal(true);
+                                setSelectedUser(user);
+                              }}
+                            >
+                              تغییر نقش
+                            </button>
+                          )
+                        }
+                      </td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-primary edit-btn"
+                              onClick={() => {
+                                setPasswordInputTypeForChangeUserPassword("password");
+                                setConfirmPasswordInputTypeForChangeUserPassword("password");
+                                setPasswordIconForChangeUserPassword(eyeOff);
+                                setConfirmPasswordIconForChangeUserPassword(eyeOff);
+                                setErrorsForChangeUserPassword({});
+                                setErrorsForChangeUserConfirmPassword({});
+                                setIsVisibleChangeUserPasswordModal(true);
+                                setSelectedUser(user);
+                              }}
+                            >
+                              تغییر رمز عبور
+                            </button>
+                          )
+                        }
+                      </td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-danger delete-btn"
+                              onClick={() => {
+                                removeUser(user._id , user.name);
+                              }}
+                            >
+                              حذف
+                            </button>
+                          )
+                        }
+                      </td>
+                      <td>
+                        {
+                          user.role !== "ADMIN" && (
+                            <button
+                              type="button"
+                              className="btn btn-danger delete-btn"
+                              onClick={() => {
+                                !user.isBan ? banUser({...user}) : unbanUser({...user});
+                              }}
+                            >
+                              {user.isBan ? "خروج از بن" : "بن"}
+                            </button>
+                          )
+                        }
+                      </td>
+                    </tr>
                   ))} 
+
+
                 </tbody>
               </table>
             </AdminPanelDatatable>
