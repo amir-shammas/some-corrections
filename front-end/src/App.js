@@ -12,12 +12,19 @@ export default function App() {
 
   const router = useRoutes(routes);
 
-  const login = useCallback((userInfos, token) => {
+  // const login = useCallback((userInfos, token) => {
+  //   setToken(token);
+  //   setIsLoggedIn(true);
+  //   setUserInfos(userInfos);
+  //   localStorage.setItem("user", JSON.stringify({ token }));
+  // }, []);
+
+  const login = (userInfos, token) => {
     setToken(token);
     setIsLoggedIn(true);
     setUserInfos(userInfos);
     localStorage.setItem("user", JSON.stringify({ token }));
-  }, []);
+  };
 
   const logout = useCallback(() => {
     setToken(null);
@@ -26,23 +33,42 @@ export default function App() {
     localStorage.removeItem("user");
   });
 
+
   useEffect(() => {
     const localStorageData = JSON.parse(localStorage.getItem("user"));
     if (localStorageData) {
+      // If there's a token in local storage, set it to state
+      setToken(localStorageData.token);
+    }
+  }, []); // Run only once on mount
+
+
+  useEffect(() => {
+    if (token) {
       fetch(`http://localhost:4000/auth/me`, {
         headers: {
-          Authorization: `Bearer ${localStorageData.token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
         .then((userData) => {
           setIsLoggedIn(true);
           setUserInfos(userData);
+        })
+        .catch(() => {
+          setIsLoggedIn(false);
+          setUserInfos({});
+          setToken(null);
+          localStorage.removeItem("user"); // Clear user data on error
         });
-    } else {
-      setIsLoggedIn(false);
     }
-  }, [login , logout , userInfos]);
+  }, [token]); // Run this effect when the token changes
+
 
 
   return (

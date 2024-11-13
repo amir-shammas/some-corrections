@@ -94,7 +94,7 @@ export default function Register() {
         swal({
           title: "با موفقیت ثبت نام شدید",
           icon: "success",
-          buttons: "ورود به پنل",
+          buttons: "باشه",
         }).then(value => {
           navigate('/')
         })

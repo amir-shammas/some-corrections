@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext , useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "./../../../context/authContext";
 import swal from "sweetalert";
@@ -34,10 +34,6 @@ export default function Navbar() {
     })
 
   }
-
-  // useEffect(() => {
-  //   console.log(authContext);
-  // }, [])
 
 
   return (
